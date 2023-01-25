@@ -22,6 +22,7 @@
 #include "Table.h"
 #include "Monitor.h"
 #include "SnowGlobe.h"
+#include "Doors.h"
 
 Bed bed;
 Room room;
@@ -29,6 +30,7 @@ Window windowModel;
 Table table;
 Monitor monitor;
 SnowGlobe snowGlobe;
+Doors doors;
 
 const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
@@ -283,6 +285,7 @@ void renderScene(GLFWwindow* window)
 	table.draw();
 	monitor.draw();
 	snowGlobe.draw();
+	doors.draw();
 
 	spotlightPos = spaceshipPos + 0.2 * spaceshipDir;
 	spotlightConeDir = spaceshipDir;
@@ -378,6 +381,7 @@ void init(GLFWwindow* window)
 	table.init();
 	monitor.init();
 	snowGlobe.init();
+	doors.init();
 
 	texture::box = Core::LoadTexture("textures/moon.jpg");
 
@@ -472,6 +476,7 @@ void Bed::draw() {
 void Room::init() {
 	loadModelToContext("./models/room/floor.obj", this->floorContext);
 	loadModelToContext("./models/room/room.obj", this->roomContext);
+	//GLuint woodTexture = Core::LoadTexture("textures/moon.png");
 }
 
 void Room::draw() {
@@ -513,4 +518,16 @@ void SnowGlobe::init() {
 
 void SnowGlobe::draw() {
 	drawObjectPBR(this->snowGlobeContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+}
+
+void Doors::init() {
+	loadModelToContext("./models/doors/frame.obj", this->frameContext);
+	//loadModelToContext("./models/doors/lockset-handle.obj", this->locksetHandleContext);
+	loadModelToContext("./models/doors/panel.obj", this->panelContext);
+}
+
+void Doors::draw() {
+	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
+	//drawObjectPBR(this->locksetHandleContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(this->panelContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
 }
