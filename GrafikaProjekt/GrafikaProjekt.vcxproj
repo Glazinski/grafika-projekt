@@ -163,20 +163,26 @@
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Monitor.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Bed.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\ex_7_1.hpp" />
     <ClInclude Include="src\ex_9_1.hpp" />
     <ClInclude Include="src\objload.h" />
     <ClInclude Include="src\Render_Utils.h" />
+    <ClInclude Include="src\Room.h" />
     <ClInclude Include="src\Shader_Loader.h" />
+    <ClInclude Include="src\SnowGlobe.h" />
     <ClInclude Include="src\SOIL\image_DXT.h" />
     <ClInclude Include="src\SOIL\image_helper.h" />
     <ClInclude Include="src\SOIL\SOIL.h" />
     <ClInclude Include="src\SOIL\stbi_DDS_aug.h" />
     <ClInclude Include="src\SOIL\stbi_DDS_aug_c.h" />
     <ClInclude Include="src\SOIL\stb_image_aug.h" />
+    <ClInclude Include="src\Table.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\shader_5_1.frag" />
