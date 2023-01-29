@@ -112,6 +112,9 @@
     <ClInclude Include="src\Doors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mirror.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\shader_5_1.frag">

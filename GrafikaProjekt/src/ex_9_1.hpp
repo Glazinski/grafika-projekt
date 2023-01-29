@@ -23,6 +23,7 @@
 #include "Monitor.h"
 #include "SnowGlobe.h"
 #include "Doors.h"
+#include "Mirror.h"
 
 Bed bed;
 Room room;
@@ -31,6 +32,7 @@ Table table;
 Monitor monitor;
 SnowGlobe snowGlobe;
 Doors doors;
+Mirror mirror;
 
 const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
@@ -286,6 +288,7 @@ void renderScene(GLFWwindow* window)
 	monitor.draw();
 	snowGlobe.draw();
 	doors.draw();
+	mirror.draw();
 
 	spotlightPos = spaceshipPos + 0.2 * spaceshipDir;
 	spotlightConeDir = spaceshipDir;
@@ -382,6 +385,7 @@ void init(GLFWwindow* window)
 	monitor.init();
 	snowGlobe.init();
 	doors.init();
+	mirror.init();
 
 	texture::box = Core::LoadTexture("textures/moon.jpg");
 
@@ -530,4 +534,14 @@ void Doors::draw() {
 	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
 	//drawObjectPBR(this->locksetHandleContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(this->panelContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
+}
+
+void Mirror::init() {
+	loadModelToContext("./models/mirror/frame.obj", this->frameContext);
+	loadModelToContext("./models/mirror/glass.obj", this->glassContext);
+}
+
+void Mirror::draw() {
+	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(0.6f, 0.3f, 0.1f), 0.2f, 0.f);
+	drawObjectPBR(this->glassContext, glm::mat4(), glm::vec3(0.f, 0.f, 0.f), 0.2f, 0.f);
 }
