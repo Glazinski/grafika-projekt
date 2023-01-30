@@ -187,6 +187,8 @@
     <ClInclude Include="src\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\framebuffer.frag" />
+    <None Include="shaders\framebuffer.vert" />
     <None Include="src\shaders\shader_5_1.frag" />
     <None Include="src\shaders\shader_5_1.vert" />
     <None Include="src\shaders\shader_5_1_tex.frag" />

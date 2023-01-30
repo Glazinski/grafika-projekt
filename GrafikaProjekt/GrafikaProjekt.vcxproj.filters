@@ -153,5 +153,7 @@
     <None Include="src\shaders\test.vert">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="shaders\framebuffer.frag" />
+    <None Include="shaders\framebuffer.vert" />
   </ItemGroup>
 </Project>

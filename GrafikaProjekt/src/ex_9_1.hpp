@@ -67,9 +67,16 @@ namespace frameBuffers {
 	GLuint box;
 }
 
+GLuint FramebufferName = 0;
+GLuint renderedTexture;
+GLuint RBO;
+GLuint depthrenderbuffer;
+GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+
 GLuint depthMapFBO;
 GLuint depthMap;
 
+GLuint framebufferProgram;
 GLuint program;
 GLuint programSun;
 GLuint programTest;
@@ -96,7 +103,7 @@ float aspectRatio = 1.f;
 
 float exposition = 1.f;
 
-glm::vec3 pointlightPos = glm::vec3(0, 2, 0);
+glm::vec3 pointlightPos = glm::vec3(0, 3.8, 0);
 glm::vec3 pointlightColor = glm::vec3(0.9, 0.6, 0.6);
 
 glm::vec3 spotlightPos = glm::vec3(0, 0, 0);
@@ -108,6 +115,21 @@ float spotlightPhi = 3.14 / 4;
 
 float lastTime = -1.f;
 float deltaTime = 0.f;
+
+float rectangleVertices[] =
+{
+	//Cords		//texCoords
+	1.0f, -1.0f, 1.0f, 0.0f,
+   -1.0f, -1.0f, 0.0f, 0.0f,
+   -1.0f,  1.0f, 0.0f, 1.0f,
+
+	1.0f,  1.0f, 1.0f, 1.0f,
+	1.0f, -1.0f, 1.0f, 0.0f,
+   -1.0f,  1.0f, 0.0f, 1.0f
+
+};
+
+unsigned int rectVAO, rectVBO;
 
 void updateDeltaTime(float time) {
 	if (lastTime < 0) {
@@ -224,10 +246,57 @@ void renderShadowapSun() {
 	glViewport(0, 0, WIDTH, HEIGHT);
 }
 
+void renderToTexture() 
+{
+	glGenFramebuffers(1, &FramebufferName);
+	glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+
+	//The texture we will render to
+	glGenTextures(1, &renderedTexture);
+
+	//"bind" newly created texture - all future texture functions will modify this texture
+	glBindTexture(GL_TEXTURE_2D, renderedTexture);
+
+	//Give an empty image to OpenGL (the last "0")
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, WIDTH, HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	//poor filtering. Needed!
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	//set "renderedTexture" as our colour attachment #0
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+
+	//Set the list of draw buffers
+	glDrawBuffers(1, DrawBuffers); //"1" is the size of DrawBuffers
+
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, WIDTH, HEIGHT);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+}
+
+void drawObjectPBRMirror(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec3 color, float roughness, float metallic) {
+	//renderToTexture();
+	glUseProgram(framebufferProgram);
+	glm::mat4 model = glm::mat4(1.0f);
+	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
+	glm::mat4 view = viewProjectionMatrix * modelMatrix;
+	glUniformMatrix4fv(glGetUniformLocation(framebufferProgram, "model"), 1, GL_FALSE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(framebufferProgram, "view"), 1, GL_FALSE, &view[0][0]);
+	glUniform3f(glGetUniformLocation(framebufferProgram, "cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);
+
+	Core::DrawContext(context);
+}
+
+
 void renderScene(GLFWwindow* window)
 {
 	glClearColor(0.4f, 0.4f, 0.8f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	float time = glfwGetTime();
 	updateDeltaTime(time);
 	renderShadowapSun();
@@ -237,29 +306,11 @@ void renderScene(GLFWwindow* window)
 	//space lamp
 	glUseProgram(programSun);
 	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
-	glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1));
+	glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.6));
 	glUniformMatrix4fv(glGetUniformLocation(programSun, "transformation"), 1, GL_FALSE, (float*)&transformation);
 	glUniform3f(glGetUniformLocation(programSun, "color"), sunColor.x / 2, sunColor.y / 2, sunColor.z / 2);
 	glUniform1f(glGetUniformLocation(programSun, "exposition"), exposition);
 	Core::DrawContext(sphereContext);
-
-	//drawObjectPBR(sphereContext, glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1)) * glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)), glm::vec3(0.2, 0.7, 0.3), 0.3, 0.0);
-
-	//drawObjectPBR(sphereContext,
-	//	glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1)) * glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(time) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)),
-	//	glm::vec3(0.5, 0.5, 0.5), 0.7, 0.0);
-
-	//drawObjectPBR(models::bedContext, glm::mat4(), glm::vec3(0.03f, 0.03f, 0.03f), 0.2f, 0.0f);
-	//drawObjectPBR(models::chairContext, glm::mat4(), glm::vec3(0.195239f, 0.37728f, 0.8f), 0.4f, 0.0f);
-	//drawObjectPBR(models::deskContext, glm::mat4(), glm::vec3(0.428691f, 0.08022f, 0.036889f), 0.2f, 0.0f);
-	//drawObjectPBR(models::doorContext, glm::mat4(), glm::vec3(0.402978f, 0.120509f, 0.057729f), 0.2f, 0.0f);
-	//drawObjectPBR(models::drawerContext, glm::mat4(), glm::vec3(0.428691f, 0.08022f, 0.036889f), 0.2f, 0.0f);
-	//drawObjectPBR(models::marbleBustContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.5f, 1.0f);
-	//drawObjectPBR(models::materaceContext, glm::mat4(), glm::vec3(0.9f, 0.9f, 0.9f), 0.8f, 0.0f);
-	//drawObjectPBR(models::pencilsContext, glm::mat4(), glm::vec3(0.10039f, 0.018356f, 0.001935f), 0.1f, 0.0f);
-	//drawObjectPBR(models::planeContext, glm::mat4(), glm::vec3(0.402978f, 0.120509f, 0.057729f), 0.2f, 0.0f);
-	//drawObjectPBR(models::roomContext, glm::mat4(), glm::vec3(0.9f, 0.9f, 0.9f), 0.8f, 0.0f);
-	//drawObjectPBR(models::windowContext, glm::mat4(), glm::vec3(0.402978f, 0.120509f, 0.057729f), 0.2f, 0.0f);
 
 	glm::vec3 spaceshipSide = glm::normalize(glm::cross(spaceshipDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 spaceshipUp = glm::normalize(glm::cross(spaceshipSide, spaceshipDir));
@@ -270,10 +321,6 @@ void renderScene(GLFWwindow* window)
 		0.,0.,0.,1.,
 		});
 
-	//drawObjectColor(shipContext,
-	//	glm::translate(cameraPos + 1.5 * cameraDir + cameraUp * -0.5f) * inveseCameraRotrationMatrix * glm::eulerAngleY(glm::pi<float>()),
-	//	glm::vec3(0.3, 0.3, 0.5)
-	//	);
 	drawObjectPBR(shipContext,
 		glm::translate(spaceshipPos) * specshipCameraRotrationMatrix * glm::eulerAngleY(glm::pi<float>()) * glm::scale(glm::vec3(0.03f)),
 		glm::vec3(0.3, 0.3, 0.5),
@@ -355,27 +402,11 @@ void init(GLFWwindow* window)
 	programTest = shaderLoader.CreateProgram("shaders/test.vert", "shaders/test.frag");
 	programSun = shaderLoader.CreateProgram("shaders/shader_8_sun.vert", "shaders/shader_8_sun.frag");
 	programSkybox = shaderLoader.CreateProgram("shaders/shader_skybox.vert", "shaders/shader_skybox.frag");
+	framebufferProgram = shaderLoader.CreateProgram("shaders/framebuffer.vert", "shaders/framebuffer.frag");
 
 	loadModelToContext("./models/sphere.obj", sphereContext);
 	loadModelToContext("./models/spaceship.obj", shipContext);
-
-
-	//loadModelToContext("./models/bed.obj", models::bedContext);
-	//loadModelToContext("./models/chair.obj", models::chairContext);
-	//loadModelToContext("./models/desk.obj", models::deskContext);
-	//loadModelToContext("./models/door.obj", models::doorContext);
-	//loadModelToContext("./models/drawer.obj", models::drawerContext);
-	//loadModelToContext("./models/marbleBust.obj", models::marbleBustContext);
-	//loadModelToContext("./models/materace.obj", models::materaceContext);
-	//loadModelToContext("./models/pencils.obj", models::pencilsContext);
-	//loadModelToContext("./models/plane.obj", models::planeContext);
-	//loadModelToContext("./models/room.obj", models::roomContext);
-	//loadModelToContext("./models/spaceship.obj", models::spaceshipContext);
-	//loadModelToContext("./models/sphere.obj", models::sphereContext);
-	//loadModelToContext("./models/window.obj", models::windowContext);
-	//loadModelToContext("./models/test.obj", models::testContext);
 	loadModelToContext("./models/cube.obj", models::skyboxContext);
-	//loadModelToContext("./models/cube.obj", models::boxContext);
 
 	/* Init models */
 	bed.init();
@@ -526,13 +557,13 @@ void SnowGlobe::draw() {
 
 void Doors::init() {
 	loadModelToContext("./models/doors/frame.obj", this->frameContext);
-	//loadModelToContext("./models/doors/lockset-handle.obj", this->locksetHandleContext);
+	loadModelToContext("./models/doors/lockset-handle.obj", this->locksetHandleContext);
 	loadModelToContext("./models/doors/panel.obj", this->panelContext);
 }
 
 void Doors::draw() {
 	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
-	//drawObjectPBR(this->locksetHandleContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(this->locksetHandleContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(this->panelContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
 }
 
@@ -543,5 +574,5 @@ void Mirror::init() {
 
 void Mirror::draw() {
 	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(0.6f, 0.3f, 0.1f), 0.2f, 0.f);
-	drawObjectPBR(this->glassContext, glm::mat4(), glm::vec3(0.f, 0.f, 0.f), 0.2f, 0.f);
+	drawObjectPBRMirror(this->glassContext, glm::mat4(), glm::vec3(0.f, 0.f, 0.f), 0.2f, 0.f);
 }
