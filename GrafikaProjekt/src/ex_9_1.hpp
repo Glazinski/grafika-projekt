@@ -122,7 +122,8 @@ glm::vec3 spotlightColor = glm::vec3(0.4, 0.4, 0.9)*3;
 float spotlightPhi = 3.14 / 4;
 
 //glm::mat4 lightVP = glm::ortho(-3.f, 2.2f, -2.f, 3.5f, 1.f, 30.0f) * glm::lookAt(sunPos, sunPos - sunDir, glm::vec3(0, 1, 0));
-glm::mat4 lightVP = glm::ortho(-8.f, 7.2f, -15.f, 8.5f, -3.f, 35.0f) * glm::lookAt(sunPos, sunPos - sunDir, glm::vec3(0, 1, 0));
+//glm::mat4 lightVP = glm::ortho(-8.f, 7.2f, -15.f, 8.5f, -3.f, 35.0f) * glm::lookAt(sunPos, sunPos - sunDir, glm::vec3(0, 1, 0));
+glm::mat4 lightVP = glm::ortho(-10.f, 10.2f, -25.f, 20.5f, -4.f, 30.0f) * glm::lookAt(sunPos, sunPos - sunDir, glm::vec3(0, 1, 0));
 
 float lastTime = -1.f;
 float deltaTime = 0.f;
