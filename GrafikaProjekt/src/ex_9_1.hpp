@@ -15,56 +15,52 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-/* MODELS */
-#include "Bed.h"
-#include "Room.h"
-#include "Window.h"
-#include "Table.h"
-#include "Monitor.h"
-#include "SnowGlobe.h"
-#include "Doors.h"
-#include "Mirror.h"
-
-Bed bed;
-Room room;
-Window windowModel;
-Table table;
-Monitor monitor;
-SnowGlobe snowGlobe;
-Doors doors;
-Mirror mirror;
-
 const unsigned int SHADOW_WIDTH = 8024, SHADOW_HEIGHT = 8024;
 
 int WIDTH = 500, HEIGHT = 500;
 
 namespace models {
+	// Bed
 	Core::RenderContext bedContext;
-	Core::RenderContext frameContext;
-	Core::RenderContext blanketContext;
-	Core::RenderContext mattressContext;
-	Core::RenderContext legsContext;
-	Core::RenderContext chairContext;
-	Core::RenderContext deskContext;
-	Core::RenderContext doorContext;
-	Core::RenderContext drawerContext;
-	Core::RenderContext marbleBustContext;
-	Core::RenderContext tableContext;
-	Core::RenderContext materaceContext;
-	Core::RenderContext pencilsContext;
-	Core::RenderContext planeContext;
+	Core::RenderContext bedFrameContext;
+	Core::RenderContext bedBlanketContext;
+	Core::RenderContext bedMattressContext;
+	Core::RenderContext bedLegsContext;
+
+	// Room
 	Core::RenderContext roomContext;
-	Core::RenderContext floorContext;
-	Core::RenderContext spaceshipContext;
-	Core::RenderContext sphereContext;
+	Core::RenderContext planeContext;
+
+	// Table
+	Core::RenderContext tableContext;
+
+	// Doors
+	Core::RenderContext doorsFrameContext;
+	Core::RenderContext doorsPanelContext;
+
+	// Monitor
+	Core::RenderContext monitorContext;
+
+	// Snow globe
+	Core::RenderContext snowGlobeContext;
+
+	// Windows
 	Core::RenderContext windowContext1;
 	Core::RenderContext windowContext2;
 	Core::RenderContext windowContext3;
-	Core::RenderContext testContext;
+	Core::RenderContext floorContext;
+
+	// Skybox
 	Core::RenderContext skyboxContext;
+
+	// Mirror
+	Core::RenderContext mirrorFrameContext;
+	Core::RenderContext mirrorGlassContext;
+	
+	Core::RenderContext spaceshipContext;
+	Core::RenderContext sphereContext;
 	Core::RenderContext boxContext;
-	Core::RenderContext monitorContext;
-	Core::RenderContext snowGlobeContext;
+
 }
 
 namespace texture {
@@ -295,32 +291,41 @@ void renderShadowapSun() {
 	drawObjectDepth(sphereContext,
 		glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1)) * glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(time) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)), glm::mat4());
 
+	// Bed
 	drawObjectDepth(models::bedContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::frameContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::blanketContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::mattressContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::legsContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::chairContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::deskContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::doorContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::drawerContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::marbleBustContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::bedFrameContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::bedBlanketContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::bedMattressContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::bedLegsContext, viewProjection, glm::mat4());
+
+	// Doors
+	drawObjectDepth(models::doorsFrameContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::doorsPanelContext, viewProjection, glm::mat4());
+
+	// Table
 	drawObjectDepth(models::tableContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::materaceContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::pencilsContext, viewProjection, glm::mat4());
+
+	// Room
 	drawObjectDepth(models::planeContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::roomContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::floorContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::spaceshipContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::sphereContext, viewProjection, glm::mat4());
+
+	// Windows
 	drawObjectDepth(models::windowContext1, viewProjection, glm::mat4());
 	drawObjectDepth(models::windowContext2, viewProjection, glm::mat4());
 	drawObjectDepth(models::windowContext3, viewProjection, glm::mat4());
-	drawObjectDepth(models::testContext, viewProjection, glm::mat4());
+
+	// Skybox
 	drawObjectDepth(models::skyboxContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::boxContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::monitorContext, viewProjection, glm::mat4());
+
+	// Snow globe
 	drawObjectDepth(models::snowGlobeContext, viewProjection, glm::mat4());
+
+	// Monitor
+	drawObjectDepth(models::monitorContext, viewProjection, glm::mat4());
+
+	drawObjectDepth(models::spaceshipContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::sphereContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::boxContext, viewProjection, glm::mat4());
 
 	glm::vec3 spaceshipSide = glm::normalize(glm::cross(spaceshipDir, glm::vec3(0.f, 1.f, 0.f)));
 	glm::vec3 spaceshipUp = glm::normalize(glm::cross(spaceshipSide, spaceshipDir));
@@ -424,33 +429,40 @@ void renderScene(GLFWwindow* window)
 		0.2,1.0
 	);
 
-	drawObjectPBR(models::frameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(models::blanketContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(models::mattressContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(models::legsContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	// Bed
+	drawObjectPBR(models::bedFrameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::bedBlanketContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::bedMattressContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::bedLegsContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+
+	// Room
 	drawObjectPBR(models::floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::roomContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+
+	// Windows
 	drawObjectPBR(models::windowContext1, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::windowContext2, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::windowContext3, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+
+	// Table
 	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+
+	// Snow globe
 	drawObjectPBR(models::snowGlobeContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	//drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
-	//drawObjectPBR(this->locksetHandleContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	//drawObjectPBR(this->panelContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
-	//drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(0.6f, 0.3f, 0.1f), 0.2f, 0.f);
-	//drawObjectPBRMirror(this->glassContext, glm::mat4(), glm::vec3(0.f, 0.f, 0.f), 0.2f, 0.f);
+
+	// Mirror
+	drawObjectPBR(models::mirrorFrameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBRMirror(models::mirrorGlassContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+
+	// Table
+	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+
+	// Monitor
 	drawObjectPBR(models::monitorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
-	/* Rendered models */
-	//bed.draw();
-	//room.draw();
-	//windowModel.draw();
-	//table.draw();
-	//monitor.draw();
-	//snowGlobe.draw();
-	doors.draw();
-	mirror.draw();
+	// Doors
+	drawObjectPBR(models::doorsFrameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::doorsPanelContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
 	spotlightPos = spaceshipPos + 0.2 * spaceshipDir;
 	spotlightConeDir = spaceshipDir;
@@ -525,27 +537,38 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/sphere.obj", sphereContext);
 	loadModelToContext("./models/spaceship.obj", shipContext);
 	loadModelToContext("./models/cube.obj", models::skyboxContext);
-	loadModelToContext("./models/snow-globe/snow-globe.obj", models::snowGlobeContext);
-	loadModelToContext("./models/bed/frame.obj", models::frameContext);
-	loadModelToContext("./models/bed/blanket.obj", models::blanketContext);
-	loadModelToContext("./models/bed/mattress.obj", models::mattressContext);
-	loadModelToContext("./models/bed/legs.obj", models::legsContext);
+
+	// Bed
+	loadModelToContext("./models/bed/frame.obj", models::bedFrameContext);
+	loadModelToContext("./models/bed/blanket.obj", models::bedBlanketContext);
+	loadModelToContext("./models/bed/mattress.obj", models::bedMattressContext);
+	loadModelToContext("./models/bed/legs.obj", models::bedLegsContext);
+
+	// Windows
 	loadModelToContext("./models/window/window.obj", models::windowContext1);
 	loadModelToContext("./models/window/window2.obj", models::windowContext2);
 	loadModelToContext("./models/window/window3.obj", models::windowContext3);
+
+	// Room
 	loadModelToContext("./models/room/floor.obj", models::floorContext);
 	loadModelToContext("./models/room/room.obj", models::roomContext);
-	loadModelToContext("./models/room/table.obj", models::tableContext);
 
-	/* Init models */
-	bed.init();
-	room.init();
-	windowModel.init();
-	table.init();
-	monitor.init();
-	snowGlobe.init();
-	doors.init();
-	mirror.init();
+	// Table
+	loadModelToContext("./models/table/table.obj", models::tableContext);
+
+	// Mirror
+	loadModelToContext("./models/mirror/frame.obj", models::mirrorFrameContext);
+	loadModelToContext("./models/mirror/glass.obj", models::mirrorGlassContext);
+
+	// Table
+	loadModelToContext("./models/snow-globe/snow-globe.obj", models::snowGlobeContext);
+
+	// Monitor
+	loadModelToContext("./models/monitor/monitor.obj", models::monitorContext);
+
+	// Doors
+	loadModelToContext("./models/doors/frame.obj", models::doorsFrameContext);
+	loadModelToContext("./models/doors/panel.obj", models::doorsPanelContext);
 
 	texture::box = Core::LoadTexture("textures/moon.jpg");
 
@@ -621,89 +644,3 @@ void renderLoop(GLFWwindow* window) {
 	}
 }
 //}
-
-/* Models implementation */
-void Bed::init() {
-	loadModelToContext("./models/bed/frame.obj", this->frameContext);
-	loadModelToContext("./models/bed/blanket.obj", this->blanketContext);
-	loadModelToContext("./models/bed/mattress.obj", this->mattressContext);
-	loadModelToContext("./models/bed/legs.obj", this->legsContext);
-}
-
-void Bed::draw() {
-	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(this->blanketContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(this->mattressContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(this->legsContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-}
-
-void Room::init() {
-	loadModelToContext("./models/room/floor.obj", this->floorContext);
-	loadModelToContext("./models/room/room.obj", this->roomContext);
-	//GLuint woodTexture = Core::LoadTexture("textures/moon.png");
-}
-
-void Room::draw() {
-	drawObjectPBR(this->floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(this->roomContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-}
-
-void Window::init() {
-	loadModelToContext("./models/window/window.obj", models::windowContext1);
-	loadModelToContext("./models/window/window2.obj", models::windowContext2);
-	loadModelToContext("./models/window/window3.obj", models::windowContext3);
-}
-
-void Window::draw() {
-	drawObjectPBR(this->windowContext1, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(this->windowContext2, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(this->windowContext3, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-}
-
-void Table::init() {
-	loadModelToContext("./models/table/table.obj", models::tableContext);
-}
-
-void Table::draw() {
-	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-}
-
-void Monitor::init() {
-	loadModelToContext("./models/monitor/monitor.obj", models::monitorContext);
-}
-
-void Monitor::draw() {
-	//drawObjectPBR(this->monitorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	//drawObjectDepth(this->monitorContext, lightVP, glm::mat4());
-
-}
-
-void SnowGlobe::init() {
-	loadModelToContext("./models/snow-globe/snow-globe.obj", this->snowGlobeContext);
-}
-
-void SnowGlobe::draw() {
-	drawObjectPBR(this->snowGlobeContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-}
-
-void Doors::init() {
-	loadModelToContext("./models/doors/frame.obj", this->frameContext);
-	loadModelToContext("./models/doors/lockset-handle.obj", this->locksetHandleContext);
-	loadModelToContext("./models/doors/panel.obj", this->panelContext);
-}
-
-void Doors::draw() {
-	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
-	drawObjectPBR(this->locksetHandleContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(this->panelContext, glm::mat4(), glm::vec3(1.f, 0.f, 0.f), 0.2f, 0.f);
-}
-
-void Mirror::init() {
-	loadModelToContext("./models/mirror/frame.obj", this->frameContext);
-	loadModelToContext("./models/mirror/glass.obj", this->glassContext);
-}
-
-void Mirror::draw() {
-	drawObjectPBR(this->frameContext, glm::mat4(), glm::vec3(0.6f, 0.3f, 0.1f), 0.2f, 0.f);
-	drawObjectPBRMirror(this->glassContext, glm::mat4(), glm::vec3(0.f, 0.f, 0.f), 0.2f, 0.f);
-}
