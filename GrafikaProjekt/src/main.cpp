@@ -6,8 +6,7 @@
 #include <iostream>
 #include <cmath>
 
-//#include "ex_7_1.hpp"
-#include "ex_9_1.hpp"
+#include "GrafikaProjekt.hpp"
 
 
 

@@ -66,6 +66,7 @@ namespace models {
 namespace texture {
 	GLuint skyboxTexture;
 	GLuint box;
+	GLuint woodPlanks;
 }
 
 namespace frameBuffers {
@@ -436,7 +437,8 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::bedLegsContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
 	// Room
-	drawObjectPBR(models::floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	/*drawObjectPBR(models::floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);*/
+	drawObjectTexture(models::floorContext, glm::mat4(), texture::woodPlanks);
 	drawObjectPBR(models::roomContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
 	// Windows
@@ -446,6 +448,7 @@ void renderScene(GLFWwindow* window)
 
 	// Table
 	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	/*drawObjectPBRTexture(models::tableContext, glm::mat4(), texture::box, 0.2f, 0.f, 10.0f);*/
 
 	// Snow globe
 	drawObjectPBR(models::snowGlobeContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
@@ -458,7 +461,7 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
 	// Monitor
-	drawObjectPBR(models::monitorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::monitorContext, glm::mat4(), glm::vec3(0.17f, 0.17f, 0.17f), 0.2f, 0.f);
 
 	// Doors
 	drawObjectPBR(models::doorsFrameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
@@ -527,8 +530,8 @@ void init(GLFWwindow* window)
 
 	glEnable(GL_DEPTH_TEST);
 	programDepth = shaderLoader.CreateProgram("shaders/shader_new1.vert", "shaders/shader_new1.frag");
-	program = shaderLoader.CreateProgram("shaders/shader_9_1.vert", "shaders/shader_9_1.frag");
-	programTex = shaderLoader.CreateProgram("shaders/shader_5_1_tex.vert", "shaders/shader_5_1_tex.frag");
+	program = shaderLoader.CreateProgram("shaders/shader_pbr.vert", "shaders/shader_pbr.frag");
+	programTex = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
 	programTest = shaderLoader.CreateProgram("shaders/test.vert", "shaders/test.frag");
 	programSun = shaderLoader.CreateProgram("shaders/shader_8_sun.vert", "shaders/shader_8_sun.frag");
 	programSkybox = shaderLoader.CreateProgram("shaders/shader_skybox.vert", "shaders/shader_skybox.frag");
@@ -570,7 +573,9 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/doors/frame.obj", models::doorsFrameContext);
 	loadModelToContext("./models/doors/panel.obj", models::doorsPanelContext);
 
-	texture::box = Core::LoadTexture("textures/moon.jpg");
+	//texture::box = Core::LoadTexture("textures/moon.jpg");
+	texture::box = Core::LoadTexture("textures/grid.png");
+	texture::woodPlanks = Core::LoadTexture("textures/wood_planks_2.jpg");
 
 	std::vector<std::string> faces
 	{
