@@ -59,6 +59,8 @@ namespace models {
 	Core::RenderContext drawerContext;
 	Core::RenderContext wardrobeContext;
 	Core::RenderContext ceilingLightLampContext;
+	Core::RenderContext couchContext;
+	Core::RenderContext tvContext;
 
 	Core::RenderContext spaceshipContext;
 	Core::RenderContext sphereContext;
@@ -318,6 +320,8 @@ void renderShadowapSun() {
 	drawObjectDepth(models::drawerContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::wardrobeContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::ceilingContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::couchContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::tvContext, viewProjection, glm::mat4());
 
 	// Light switch
 	drawObjectDepth(models::lightSwitchContainerContext, viewProjection, glm::mat4());
@@ -478,6 +482,8 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::drawerContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
 	drawObjectPBR(models::wardrobeContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
 	drawObjectPBR(models::ceilingLightLampContext, glm::mat4(), glm::vec3(1., 1., 1.), 0.2f, 0.f);
+	drawObjectPBR(models::couchContext, glm::mat4(), glm::vec3(0.07, 0.32, 0.16), 0.2f, 0.f);
+	drawObjectPBR(models::tvContext, glm::mat4(), glm::vec3(0.17f, 0.17f, 0.17f), 0.2f, 0.f);
 
 	// Light switch
 	drawObjectLightSwitch(models::lightSwitchContainerContext, glm::mat4(), glm::vec3(0.77, 0.77, 0.77));
@@ -597,6 +603,8 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/drawer.obj", models::drawerContext);
 	loadModelToContext("./models/wardrobe.obj", models::wardrobeContext);
 	loadModelToContext("./models/ceiling-light-lamp.obj", models::ceilingLightLampContext);
+	loadModelToContext("./models/couch.obj", models::couchContext);
+	loadModelToContext("./models/tv.obj", models::tvContext);
 
 	//texture::box = Core::LoadTexture("textures/moon.jpg");
 	texture::box = Core::LoadTexture("textures/grid.png");
