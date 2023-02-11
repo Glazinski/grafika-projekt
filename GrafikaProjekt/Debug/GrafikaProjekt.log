@@ -15,18 +15,18 @@ C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaPr
           [
               T=float
           ]
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(410,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(420,108): warning C4305: 'argument': truncation from 'double' to 'T'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(409,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(419,108): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(453,2): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(527,17): warning C4101: 'image': unreferenced local variable
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(654,21): warning C4305: '-=': truncation from 'double' to 'float'
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(656,21): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(671,19): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
-C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(671,16): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(446,2): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(521,17): warning C4101: 'image': unreferenced local variable
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(649,21): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(651,21): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(666,19): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(666,16): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
 Box.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   GrafikaProjekt.vcxproj -> C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\Debug\GrafikaProjekt.exe
