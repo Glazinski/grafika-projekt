@@ -21,42 +21,44 @@ int WIDTH = 500, HEIGHT = 500;
 
 namespace models {
 	// Bed
-	Core::RenderContext bedContext;
+	//Core::RenderContext bedContext;
 	Core::RenderContext bedFrameContext;
 	Core::RenderContext bedBlanketContext;
 	Core::RenderContext bedMattressContext;
 	Core::RenderContext bedLegsContext;
+	Core::RenderContext bedPillowContext;
 
 	// Room
 	Core::RenderContext roomContext;
-	Core::RenderContext planeContext;
+	Core::RenderContext floorContext;
+	Core::RenderContext ceilingContext;
 
-	// Table
 	Core::RenderContext tableContext;
-
-	// Doors
-	Core::RenderContext doorsFrameContext;
-	Core::RenderContext doorsPanelContext;
-
-	// Monitor
 	Core::RenderContext monitorContext;
-
-	// Snow globe
 	Core::RenderContext snowGlobeContext;
 
 	// Windows
 	Core::RenderContext windowContext1;
 	Core::RenderContext windowContext2;
 	Core::RenderContext windowContext3;
-	Core::RenderContext floorContext;
 
-	// Skybox
 	Core::RenderContext skyboxContext;
 
 	// Mirror
 	Core::RenderContext mirrorFrameContext;
 	Core::RenderContext mirrorGlassContext;
 	
+	// Light Switch
+	Core::RenderContext lightSwitchContext;
+	Core::RenderContext lightSwitchContainerContext;
+
+	Core::RenderContext doorContext;
+	Core::RenderContext pencilsContext;
+	Core::RenderContext marbleBustContext;
+	Core::RenderContext notebookContext;
+	Core::RenderContext drawerContext;
+
+	Core::RenderContext paperAirplaneContext;
 	Core::RenderContext spaceshipContext;
 	Core::RenderContext sphereContext;
 	Core::RenderContext boxContext;
@@ -89,6 +91,7 @@ GLuint programSun;
 GLuint programTest;
 GLuint programTex;
 GLuint programSkybox;
+GLuint programLightSwitch;
 Core::Shader_Loader shaderLoader;
 
 Core::RenderContext shipContext;
@@ -108,9 +111,11 @@ GLuint VAO,VBO;
 
 float aspectRatio = 1.f;
 
-float exposition = 3.f;
+//float exposition = 3.f;
+float exposition = 10.f;
 
-glm::vec3 pointlightPos = glm::vec3(0, 3.8, 0);
+//glm::vec3 pointlightPos = glm::vec3(0, 3.8, 0);
+glm::vec3 pointlightPos = glm::vec3(0., 2.5, 0.);
 glm::vec3 pointlightColor = glm::vec3(0.9, 0.6, 0.6);
 
 glm::vec3 spotlightPos = glm::vec3(0, 0, 0);
@@ -125,20 +130,9 @@ glm::mat4 lightVP = glm::ortho(-10.f, 10.2f, -25.f, 20.5f, -4.f, 30.0f) * glm::l
 float lastTime = -1.f;
 float deltaTime = 0.f;
 
-float rectangleVertices[] =
-{
-	//Cords		//texCoords
-	1.0f, -1.0f, 1.0f, 0.0f,
-   -1.0f, -1.0f, 0.0f, 0.0f,
-   -1.0f,  1.0f, 0.0f, 1.0f,
-
-	1.0f,  1.0f, 1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f, 0.0f,
-   -1.0f,  1.0f, 0.0f, 1.0f
-
-};
-
 unsigned int rectVAO, rectVBO;
+
+int isRoomLightOn = true;
 
 void updateDeltaTime(float time) {
 	if (lastTime < 0) {
@@ -293,21 +287,20 @@ void renderShadowapSun() {
 		glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1)) * glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::eulerAngleY(time) * glm::translate(glm::vec3(1.f, 0, 0)) * glm::scale(glm::vec3(0.1f)), glm::mat4());
 
 	// Bed
-	drawObjectDepth(models::bedContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::bedFrameContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::bedBlanketContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::bedMattressContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::bedPillowContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::bedLegsContext, viewProjection, glm::mat4());
 
 	// Doors
-	drawObjectDepth(models::doorsFrameContext, viewProjection, glm::mat4());
-	drawObjectDepth(models::doorsPanelContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::doorContext, viewProjection, glm::mat4());
 
 	// Table
 	drawObjectDepth(models::tableContext, viewProjection, glm::mat4());
 
 	// Room
-	drawObjectDepth(models::planeContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::floorContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::roomContext, viewProjection, glm::mat4());
 
 	// Windows
@@ -315,14 +308,17 @@ void renderShadowapSun() {
 	drawObjectDepth(models::windowContext2, viewProjection, glm::mat4());
 	drawObjectDepth(models::windowContext3, viewProjection, glm::mat4());
 
-	// Skybox
 	drawObjectDepth(models::skyboxContext, viewProjection, glm::mat4());
-
-	// Snow globe
 	drawObjectDepth(models::snowGlobeContext, viewProjection, glm::mat4());
-
-	// Monitor
 	drawObjectDepth(models::monitorContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::marbleBustContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::pencilsContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::notebookContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::drawerContext, viewProjection, glm::mat4());
+
+	// Light switch
+	drawObjectDepth(models::lightSwitchContainerContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::lightSwitchContext, viewProjection, glm::mat4());
 
 	drawObjectDepth(models::spaceshipContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::sphereContext, viewProjection, glm::mat4());
@@ -394,6 +390,15 @@ void drawObjectPBRMirror(Core::RenderContext& context, glm::mat4 modelMatrix, gl
 	Core::DrawContext(context);
 }
 
+void drawObjectLightSwitch(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec3 color) {
+	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
+	glm::mat4 view = viewProjectionMatrix * modelMatrix;
+	glUseProgram(programLightSwitch);
+	glUniformMatrix4fv(glGetUniformLocation(programLightSwitch, "view"), 1, GL_FALSE, &view[0][0]);
+
+	glUniform4f(glGetUniformLocation(programLightSwitch, "PickingColor"), color.x, color.y, color.z, 1.0f);
+	Core::DrawContext(context);
+}
 
 void renderScene(GLFWwindow* window)
 {
@@ -409,8 +414,17 @@ void renderScene(GLFWwindow* window)
 	//space lamp
 	glUseProgram(programSun);
 	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
-	glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.6));
+	/*glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.6));*/
+	glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.2));
 	glUniformMatrix4fv(glGetUniformLocation(programSun, "transformation"), 1, GL_FALSE, (float*)&transformation);
+	if (!isRoomLightOn) {
+		sunColor = glm::vec3(0., 0., 0.);
+		exposition = 3.;
+	}
+	else if (isRoomLightOn) {
+		sunColor = glm::vec3(0.9f, 0.9f, 0.7f) * 5;
+		exposition = 10.;
+	}
 	glUniform3f(glGetUniformLocation(programSun, "color"), sunColor.x / 2, sunColor.y / 2, sunColor.z / 2);
 	glUniform1f(glGetUniformLocation(programSun, "exposition"), exposition);
 	Core::DrawContext(sphereContext);
@@ -431,42 +445,39 @@ void renderScene(GLFWwindow* window)
 	);
 
 	// Bed
-	drawObjectPBR(models::bedFrameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(models::bedBlanketContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::bedFrameContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
+	drawObjectPBR(models::bedLegsContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
+	drawObjectPBR(models::bedBlanketContext, glm::mat4(), glm::vec3(0.15, 0.31, 0.81), 0.2f, 0.f);
 	drawObjectPBR(models::bedMattressContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(models::bedLegsContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::bedPillowContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
 	// Room
 	/*drawObjectPBR(models::floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);*/
 	drawObjectTexture(models::floorContext, glm::mat4(), texture::woodPlanks);
-	drawObjectPBR(models::roomContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::ceilingContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::roomContext, glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f), 0.2f, 0.f);
 
 	// Windows
 	drawObjectPBR(models::windowContext1, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::windowContext2, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::windowContext3, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
-	// Table
-	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	/*drawObjectPBRTexture(models::tableContext, glm::mat4(), texture::box, 0.2f, 0.f, 10.0f);*/
-
-	// Snow globe
+	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(0.25f, 0.25f, 0.25f), 0.2f, 0.f);
 	drawObjectPBR(models::snowGlobeContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-
-	// Mirror
 	drawObjectPBR(models::mirrorFrameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBRMirror(models::mirrorGlassContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-
-	// Table
 	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-
-	// Monitor
 	drawObjectPBR(models::monitorContext, glm::mat4(), glm::vec3(0.17f, 0.17f, 0.17f), 0.2f, 0.f);
+	drawObjectPBR(models::doorContext, glm::mat4(), glm::vec3(0.42f, 0.29f, 0.23f), 0.2f, 0.f);
+	drawObjectPBR(models::pencilsContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+	drawObjectPBR(models::marbleBustContext, glm::mat4(), glm::vec3(0.88, 0.88, 0.88), 0.2f, 0.f);
+	drawObjectPBR(models::notebookContext, glm::mat4(), glm::vec3(0.93, 0.23, 0.23), 0.2f, 0.f);
+	drawObjectPBR(models::drawerContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
 
-	// Doors
-	drawObjectPBR(models::doorsFrameContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-	drawObjectPBR(models::doorsPanelContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
-
+	// Light switch
+	drawObjectLightSwitch(models::lightSwitchContainerContext, glm::mat4(), glm::vec3(0.77, 0.77, 0.77));
+	drawObjectLightSwitch(models::lightSwitchContext, glm::mat4(), glm::vec3(0.88, 0.88, 0.88));
+	
 	spotlightPos = spaceshipPos + 0.2 * spaceshipDir;
 	spotlightConeDir = spaceshipDir;
 
@@ -536,6 +547,7 @@ void init(GLFWwindow* window)
 	programSun = shaderLoader.CreateProgram("shaders/shader_8_sun.vert", "shaders/shader_8_sun.frag");
 	programSkybox = shaderLoader.CreateProgram("shaders/shader_skybox.vert", "shaders/shader_skybox.frag");
 	framebufferProgram = shaderLoader.CreateProgram("shaders/framebuffer.vert", "shaders/framebuffer.frag");
+	programLightSwitch = shaderLoader.CreateProgram("shaders/shader_light_switch.vert", "shaders/shader_light_switch.frag");
 
 	loadModelToContext("./models/sphere.obj", sphereContext);
 	loadModelToContext("./models/spaceship.obj", shipContext);
@@ -546,6 +558,7 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/bed/blanket.obj", models::bedBlanketContext);
 	loadModelToContext("./models/bed/mattress.obj", models::bedMattressContext);
 	loadModelToContext("./models/bed/legs.obj", models::bedLegsContext);
+	loadModelToContext("./models/bed/pillow.obj", models::bedPillowContext);
 
 	// Windows
 	loadModelToContext("./models/window/window.obj", models::windowContext1);
@@ -554,6 +567,7 @@ void init(GLFWwindow* window)
 
 	// Room
 	loadModelToContext("./models/room/floor.obj", models::floorContext);
+	loadModelToContext("./models/room/ceiling.obj", models::ceilingContext);
 	loadModelToContext("./models/room/room.obj", models::roomContext);
 
 	// Table
@@ -563,15 +577,19 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/mirror/frame.obj", models::mirrorFrameContext);
 	loadModelToContext("./models/mirror/glass.obj", models::mirrorGlassContext);
 
-	// Table
+	// Light switch
+	loadModelToContext("./models/light-switch/light-switch-container.obj", models::lightSwitchContainerContext);
+	loadModelToContext("./models/light-switch/light-switch.obj", models::lightSwitchContext);
+
 	loadModelToContext("./models/snow-globe/snow-globe.obj", models::snowGlobeContext);
-
-	// Monitor
 	loadModelToContext("./models/monitor/monitor.obj", models::monitorContext);
-
-	// Doors
-	loadModelToContext("./models/doors/frame.obj", models::doorsFrameContext);
-	loadModelToContext("./models/doors/panel.obj", models::doorsPanelContext);
+	loadModelToContext("./models/door/door.obj", models::doorContext);
+	loadModelToContext("./models/door/door.obj", models::doorContext);
+	loadModelToContext("./models/door/door.obj", models::doorContext);
+	loadModelToContext("./models/pencils.obj", models::pencilsContext);
+	loadModelToContext("./models/marble-bust.obj", models::marbleBustContext);
+	loadModelToContext("./models/notebook.obj", models::notebookContext);
+	loadModelToContext("./models/drawer.obj", models::drawerContext);
 
 	//texture::box = Core::LoadTexture("textures/moon.jpg");
 	texture::box = Core::LoadTexture("textures/grid.png");
@@ -634,6 +652,20 @@ void processInput(GLFWwindow* window)
 		printf("spaceshipDir = glm::vec3(%ff, %ff, %ff);\n", spaceshipDir.x, spaceshipDir.y, spaceshipDir.z);
 	}
 
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		double x, y;
+		glfwGetCursorPos(window, &x, &y);
+
+		int windowWidth, windowHeight;
+		glfwGetWindowSize(window, &windowWidth, &windowHeight);
+		y = windowHeight - y;
+		unsigned char color[4];
+		glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+
+		if (color[0] == 224 && color[1] == 224 && color[2] == 224) {
+			isRoomLightOn = !isRoomLightOn;
+		}
+	}
 	//cameraDir = glm::normalize(-cameraPos);
 
 }

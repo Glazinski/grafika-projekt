@@ -128,5 +128,7 @@
     </None>
     <None Include="shaders\framebuffer.frag" />
     <None Include="shaders\framebuffer.vert" />
+    <None Include="shaders\shader_light_switch.frag" />
+    <None Include="shaders\shader_light_switch.vert" />
   </ItemGroup>
 </Project>
