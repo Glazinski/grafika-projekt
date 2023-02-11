@@ -58,6 +58,7 @@ namespace models {
 	Core::RenderContext notebookContext;
 	Core::RenderContext drawerContext;
 	Core::RenderContext wardrobeContext;
+	Core::RenderContext ceilingLightLampContext;
 
 	Core::RenderContext spaceshipContext;
 	Core::RenderContext sphereContext;
@@ -115,7 +116,7 @@ float aspectRatio = 1.f;
 float exposition = 10.f;
 
 //glm::vec3 pointlightPos = glm::vec3(0, 3.8, 0);
-glm::vec3 pointlightPos = glm::vec3(0., 2.5, 0.);
+glm::vec3 pointlightPos = glm::vec3(0, 2.35, -0.44);
 glm::vec3 pointlightColor = glm::vec3(0.9, 0.6, 0.6);
 
 glm::vec3 spotlightPos = glm::vec3(0, 0, 0);
@@ -316,6 +317,7 @@ void renderShadowapSun() {
 	drawObjectDepth(models::notebookContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::drawerContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::wardrobeContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::ceilingContext, viewProjection, glm::mat4());
 
 	// Light switch
 	drawObjectDepth(models::lightSwitchContainerContext, viewProjection, glm::mat4());
@@ -416,7 +418,7 @@ void renderScene(GLFWwindow* window)
 	glUseProgram(programSun);
 	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
 	/*glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.6));*/
-	glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.2));
+	glm::mat4 transformation = viewProjectionMatrix * glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1));
 	glUniformMatrix4fv(glGetUniformLocation(programSun, "transformation"), 1, GL_FALSE, (float*)&transformation);
 	if (!isRoomLightOn) {
 		sunColor = glm::vec3(0., 0., 0.);
@@ -475,6 +477,7 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::notebookContext, glm::mat4(), glm::vec3(0.93, 0.23, 0.23), 0.2f, 0.f);
 	drawObjectPBR(models::drawerContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
 	drawObjectPBR(models::wardrobeContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
+	drawObjectPBR(models::ceilingLightLampContext, glm::mat4(), glm::vec3(1., 1., 1.), 0.2f, 0.f);
 
 	// Light switch
 	drawObjectLightSwitch(models::lightSwitchContainerContext, glm::mat4(), glm::vec3(0.77, 0.77, 0.77));
@@ -593,6 +596,7 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/notebook.obj", models::notebookContext);
 	loadModelToContext("./models/drawer.obj", models::drawerContext);
 	loadModelToContext("./models/wardrobe.obj", models::wardrobeContext);
+	loadModelToContext("./models/ceiling-light-lamp.obj", models::ceilingLightLampContext);
 
 	//texture::box = Core::LoadTexture("textures/moon.jpg");
 	texture::box = Core::LoadTexture("textures/grid.png");
