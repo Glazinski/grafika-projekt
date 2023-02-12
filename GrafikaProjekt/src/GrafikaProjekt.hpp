@@ -62,6 +62,7 @@ namespace models {
 	Core::RenderContext couchContext;
 	Core::RenderContext tvContext;
 	Core::RenderContext chairContext;
+	Core::RenderContext tableLampContext;
 
 	Core::RenderContext spaceshipContext;
 	Core::RenderContext sphereContext;
@@ -242,22 +243,58 @@ void drawObjectPBR(Core::RenderContext& context, glm::mat4 modelMatrix, glm::vec
 	Core::DrawContext(context);
 }
 
+void drawObjectPBRTexture(Core::RenderContext& context, glm::mat4 modelMatrix, GLuint textureId, float roughness, float metallic, float brightness) {
+	glUseProgram(programTex);
+	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
+	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
+	glUniformMatrix4fv(glGetUniformLocation(programTex, "transformation"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(programTex, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+
+	glUniform1f(glGetUniformLocation(programTex, "exposition"), exposition);
+
+	glUniform1f(glGetUniformLocation(programTex, "roughness"), roughness);
+	glUniform1f(glGetUniformLocation(programTex, "metallic"), metallic);
+	glUniform1f(glGetUniformLocation(programTex, "brightness"), brightness);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+
+	glUniformMatrix4fv(glGetUniformLocation(programTex, "lightVP"), 1, GL_FALSE, (float*)&lightVP);
+
+	//glUniform3f(glGetUniformLocation(program, "color"), color.x, color.y, color.z);
+
+	glUniform3f(glGetUniformLocation(programTex, "cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);
+
+	glUniform3f(glGetUniformLocation(programTex, "sunDir"), sunDir.x, sunDir.y, sunDir.z);
+	glUniform3f(glGetUniformLocation(programTex, "sunColor"), sunColor.x, sunColor.y, sunColor.z);
+
+	glUniform3f(glGetUniformLocation(programTex, "lightPos"), pointlightPos.x, pointlightPos.y, pointlightPos.z);
+	glUniform3f(glGetUniformLocation(programTex, "lightColor"), pointlightColor.x, pointlightColor.y, pointlightColor.z);
+
+	glUniform3f(glGetUniformLocation(programTex, "spotlightConeDir"), spotlightConeDir.x, spotlightConeDir.y, spotlightConeDir.z);
+	glUniform3f(glGetUniformLocation(programTex, "spotlightPos"), spotlightPos.x, spotlightPos.y, spotlightPos.z);
+	glUniform3f(glGetUniformLocation(programTex, "spotlightColor"), spotlightColor.x, spotlightColor.y, spotlightColor.z);
+	glUniform1f(glGetUniformLocation(programTex, "spotlightPhi"), spotlightPhi);
+	Core::SetActiveTexture(textureId, "colorTexture", programTex, 0);
+	Core::DrawContext(context);
+}
+
 void drawObjectDepth(Core::RenderContext& context, glm::mat4 viewProjectionMatrix, glm::mat4 modelMatrix) {
 	glUniformMatrix4fv(glGetUniformLocation(programDepth, "viewProjectionMatrix"), 1, GL_FALSE, (float*)&viewProjectionMatrix);
 	glUniformMatrix4fv(glGetUniformLocation(programDepth, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
 	Core::DrawContext(context);
 }
 
-void drawObjectTexture(Core::RenderContext& context, glm::mat4 modelMatrix, GLuint textureID) {
-	glUseProgram(programTex);
-	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
-	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
-	glUniformMatrix4fv(glGetUniformLocation(programTex, "transformation"), 1, GL_FALSE, (float*)&transformation);
-	glUniformMatrix4fv(glGetUniformLocation(programTex, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
-	glUniform3f(glGetUniformLocation(programTex, "lightPos"), pointlightPos.x, pointlightPos.y, pointlightPos.z);
-	Core::SetActiveTexture(textureID, "colorTexture", programTex, 0);
-	Core::DrawContext(context);
-}
+//void drawObjectTexture(Core::RenderContext& context, glm::mat4 modelMatrix, GLuint textureID) {
+//	glUseProgram(programTex);
+//	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
+//	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
+//	glUniformMatrix4fv(glGetUniformLocation(programTex, "transformation"), 1, GL_FALSE, (float*)&transformation);
+//	glUniformMatrix4fv(glGetUniformLocation(programTex, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+//	glUniform3f(glGetUniformLocation(programTex, "lightPos"), pointlightPos.x, pointlightPos.y, pointlightPos.z);
+//	Core::SetActiveTexture(textureID, "colorTexture", programTex, 0);
+//	Core::DrawContext(context);
+//}
 
 void drawSkybox(glm::mat4 modelMatrix) {
 	glDisable(GL_DEPTH_TEST);
@@ -328,6 +365,7 @@ void renderShadowapSun() {
 	drawObjectDepth(models::couchContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::tvContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::chairContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::tableLampContext, viewProjection, glm::mat4());
 
 	// Light switch
 	drawObjectDepth(models::lightSwitchContainerContext, viewProjection, glm::mat4());
@@ -467,7 +505,8 @@ void renderScene(GLFWwindow* window)
 
 	// Room
 	/*drawObjectPBR(models::floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);*/
-	drawObjectTexture(models::floorContext, glm::mat4(), texture::woodPlanks);
+	/*drawObjectTexture(models::floorContext, glm::mat4(), texture::woodPlanks);*/
+	drawObjectPBRTexture(models::floorContext, glm::mat4(), texture::woodPlanks, 0.2f, 0.f, .5);
 
 	drawObjectPBR(models::movingSphere, glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1)) * glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
@@ -495,6 +534,7 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::couchContext, glm::mat4(), glm::vec3(0.07, 0.32, 0.16), 0.2f, 0.f);
 	drawObjectPBR(models::tvContext, glm::mat4(), glm::vec3(0.17f, 0.17f, 0.17f), 0.2f, 0.f);
 	drawObjectPBR(models::chairContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
+	drawObjectPBR(models::tableLampContext, glm::mat4(), glm::vec3(0.81, 0.53, 0.16), 0.2f, 0.f);
 
 	// Light switch
 	drawObjectLightSwitch(models::lightSwitchContainerContext, glm::mat4(), glm::vec3(0.77, 0.77, 0.77));
@@ -574,7 +614,7 @@ void init(GLFWwindow* window)
 	glEnable(GL_DEPTH_TEST);
 	programDepth = shaderLoader.CreateProgram("shaders/shader_new1.vert", "shaders/shader_new1.frag");
 	program = shaderLoader.CreateProgram("shaders/shader_pbr.vert", "shaders/shader_pbr.frag");
-	programTex = shaderLoader.CreateProgram("shaders/shader_tex.vert", "shaders/shader_tex.frag");
+	programTex = shaderLoader.CreateProgram("shaders/shader_pbr_tex.vert", "shaders/shader_pbr_tex.frag");
 	programTest = shaderLoader.CreateProgram("shaders/test.vert", "shaders/test.frag");
 	programSun = shaderLoader.CreateProgram("shaders/shader_8_sun.vert", "shaders/shader_8_sun.frag");
 	programSkybox = shaderLoader.CreateProgram("shaders/shader_skybox.vert", "shaders/shader_skybox.frag");
@@ -628,6 +668,7 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/tv.obj", models::tvContext);
 	loadModelToContext("./models/chair.obj", models::chairContext);
 	loadModelToContext("./models/sphere.obj", models::movingSphere);
+	loadModelToContext("./models/table-lamp.obj", models::tableLampContext);
 
 	//texture::box = Core::LoadTexture("textures/moon.jpg");
 	texture::box = Core::LoadTexture("textures/grid.png");

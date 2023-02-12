@@ -1,37 +1,37 @@
 ﻿  main.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: "APIENTRY": ponowna definicja makra
-C:\Users\jwesolowski\Source\Repos\grafika-projekt\dependencies\glfw-3.3.8.bin.WIN32\include\GLFW\glfw3.h(123,1): message : zobacz poprzednią definicję „APIENTRY”
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(132,30): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(152,38): warning C4305: "=": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(194,16): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(278,13): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(293,89): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\dependencies\glfw-3.3.8.bin.WIN32\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(133,30): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(153,38): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(195,16): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(315,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(330,89): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(295,59): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(332,59): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(422,13): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(432,108): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(460,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(470,108): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(459,2): warning C4305: "argument": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(472,94): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(497,2): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(511,94): warning C4305: 'argument': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(551,17): warning C4101: "image": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(685,21): warning C4305: "-=": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(687,21): warning C4305: "+=": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(705,19): warning C4244: "argument": konwersja z "double" do "GLint", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt\GrafikaProjekt\src\GrafikaProjekt.hpp(705,16): warning C4244: "argument": konwersja z "double" do "GLint", możliwa utrata danych
-Box.obj : warning LNK4075: zignorowano opcję „/EDITANDCONTINUE” z powodu określenia opcji „/INCREMENTAL:NO”
-LINK : warning LNK4098: domyślna biblioteka „MSVCRT” powoduje konflikt z innymi bibliotekami; użyj opcji /NODEFAULTLIB:biblioteka
-  GrafikaProjekt.vcxproj -> C:\Users\jwesolowski\Source\Repos\grafika-projekt\Debug\GrafikaProjekt.exe
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(591,17): warning C4101: 'image': unreferenced local variable
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(726,21): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(728,21): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(746,19): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\GrafikaProjekt\src\GrafikaProjekt.hpp(746,16): warning C4244: 'argument': conversion from 'double' to 'GLint', possible loss of data
+Box.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/INCREMENTAL:NO' specification
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  GrafikaProjekt.vcxproj -> C:\Users\glaz\studia\3-rok\1-semestr\GrafikaProjekt\Debug\GrafikaProjekt.exe

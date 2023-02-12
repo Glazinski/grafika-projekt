@@ -130,5 +130,7 @@
     <None Include="shaders\framebuffer.vert" />
     <None Include="shaders\shader_light_switch.frag" />
     <None Include="shaders\shader_light_switch.vert" />
+    <None Include="shaders\shader_pbr_tex.vert" />
+    <None Include="shaders\shader_pbr_tex.frag" />
   </ItemGroup>
 </Project>

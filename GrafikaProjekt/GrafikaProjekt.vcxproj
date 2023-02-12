@@ -29,13 +29,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -182,6 +182,8 @@
     <None Include="shaders\framebuffer.vert" />
     <None Include="shaders\shader_light_switch.frag" />
     <None Include="shaders\shader_light_switch.vert" />
+    <None Include="shaders\shader_pbr_tex.frag" />
+    <None Include="shaders\shader_pbr_tex.vert" />
     <None Include="src\shaders\shader_5_1.frag" />
     <None Include="src\shaders\shader_5_1.vert" />
     <None Include="src\shaders\shader_5_1_tex.frag" />
