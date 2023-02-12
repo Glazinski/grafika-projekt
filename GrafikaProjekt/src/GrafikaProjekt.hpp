@@ -67,6 +67,9 @@ namespace models {
 	Core::RenderContext sphereContext;
 	Core::RenderContext boxContext;
 
+	// movingSphere
+	Core::RenderContext movingSphere;
+
 }
 
 namespace texture {
@@ -332,6 +335,7 @@ void renderShadowapSun() {
 
 	drawObjectDepth(models::spaceshipContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::sphereContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::movingSphere, viewProjection, glm::mat4());
 	drawObjectDepth(models::boxContext, viewProjection, glm::mat4());
 
 	glm::vec3 spaceshipSide = glm::normalize(glm::cross(spaceshipDir, glm::vec3(0.f, 1.f, 0.f)));
@@ -464,6 +468,9 @@ void renderScene(GLFWwindow* window)
 	// Room
 	/*drawObjectPBR(models::floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);*/
 	drawObjectTexture(models::floorContext, glm::mat4(), texture::woodPlanks);
+
+	drawObjectPBR(models::movingSphere, glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1)) * glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
+
 	drawObjectPBR(models::ceilingContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::roomContext, glm::mat4(), glm::vec3(0.5f, 0.5f, 0.5f), 0.2f, 0.f);
 
@@ -620,6 +627,7 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/couch.obj", models::couchContext);
 	loadModelToContext("./models/tv.obj", models::tvContext);
 	loadModelToContext("./models/chair.obj", models::chairContext);
+	loadModelToContext("./models/sphere.obj", models::movingSphere);
 
 	//texture::box = Core::LoadTexture("textures/moon.jpg");
 	texture::box = Core::LoadTexture("textures/grid.png");
