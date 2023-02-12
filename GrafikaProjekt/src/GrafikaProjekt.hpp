@@ -61,6 +61,8 @@ namespace models {
 	Core::RenderContext ceilingLightLampContext;
 	Core::RenderContext couchContext;
 	Core::RenderContext tvContext;
+	Core::RenderContext groundContext;
+	Core::RenderContext chairContext;
 
 	Core::RenderContext spaceshipContext;
 	Core::RenderContext sphereContext;
@@ -72,6 +74,7 @@ namespace texture {
 	GLuint skyboxTexture;
 	GLuint box;
 	GLuint woodPlanks;
+	GLuint grass;
 }
 
 namespace frameBuffers {
@@ -322,6 +325,8 @@ void renderShadowapSun() {
 	drawObjectDepth(models::ceilingContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::couchContext, viewProjection, glm::mat4());
 	drawObjectDepth(models::tvContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::groundContext, viewProjection, glm::mat4());
+	drawObjectDepth(models::chairContext, viewProjection, glm::mat4());
 
 	// Light switch
 	drawObjectDepth(models::lightSwitchContainerContext, viewProjection, glm::mat4());
@@ -484,9 +489,22 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBR(models::ceilingLightLampContext, glm::mat4(), glm::vec3(1., 1., 1.), 0.2f, 0.f);
 	drawObjectPBR(models::couchContext, glm::mat4(), glm::vec3(0.07, 0.32, 0.16), 0.2f, 0.f);
 	drawObjectPBR(models::tvContext, glm::mat4(), glm::vec3(0.17f, 0.17f, 0.17f), 0.2f, 0.f);
+	drawObjectPBR(models::groundContext, glm::mat4(), glm::vec3(0.12, 0.66, 0.15), 0.2f, 0.f);
+	//drawObjectTexture(models::groundContext, glm::mat4(), texture::grass);
+	drawObjectPBR(models::chairContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
 
 	// Light switch
 	drawObjectLightSwitch(models::lightSwitchContainerContext, glm::mat4(), glm::vec3(0.77, 0.77, 0.77));
+
+	glm::mat4 lightSwitchModelMatrix = glm::mat4();
+
+	//if (isRoomLightOn) {
+	//	lightSwitchModelMatrix = glm::mat4() * glm::rotate(glm::vec3(0., 0., 0.5));
+	//}
+	//else if (!isRoomLightOn) {
+	//	lightSwitchModelMatrix = glm::mat4();
+	//}
+
 	drawObjectLightSwitch(models::lightSwitchContext, glm::mat4(), glm::vec3(0.88, 0.88, 0.88));
 	
 	spotlightPos = spaceshipPos + 0.2 * spaceshipDir;
@@ -605,10 +623,13 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/ceiling-light-lamp.obj", models::ceilingLightLampContext);
 	loadModelToContext("./models/couch.obj", models::couchContext);
 	loadModelToContext("./models/tv.obj", models::tvContext);
+	loadModelToContext("./models/ground.obj", models::groundContext);
+	loadModelToContext("./models/chair.obj", models::chairContext);
 
 	//texture::box = Core::LoadTexture("textures/moon.jpg");
 	texture::box = Core::LoadTexture("textures/grid.png");
 	texture::woodPlanks = Core::LoadTexture("textures/wood_planks_2.jpg");
+	texture::grass = Core::LoadTexture("textures/grass.jpg");
 
 	std::vector<std::string> faces
 	{
@@ -668,6 +689,9 @@ void processInput(GLFWwindow* window)
 	}
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		glFlush();
+		glFinish();
+
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
 
