@@ -84,6 +84,24 @@ namespace frameBuffers {
 	GLuint box;
 }
 
+namespace doorTexture
+{
+	GLuint albedo;
+	GLuint normal;
+	GLuint ambientOcclusion;
+	GLuint roughness;
+	GLuint metalness;
+}
+
+namespace wardrobeTexture
+{
+	GLuint albedo;
+	GLuint normal;
+	GLuint ambientOcclusion;
+	GLuint roughness;
+	GLuint metalness;
+}
+
 GLuint FramebufferName = 0;
 GLuint renderedTexture;
 GLuint RBO;
@@ -276,6 +294,33 @@ void drawObjectPBRTexture(Core::RenderContext& context, glm::mat4 modelMatrix, G
 	glUniform3f(glGetUniformLocation(programTex, "spotlightColor"), spotlightColor.x, spotlightColor.y, spotlightColor.z);
 	glUniform1f(glGetUniformLocation(programTex, "spotlightPhi"), spotlightPhi);
 	Core::SetActiveTexture(textureId, "colorTexture", programTex, 0);
+	Core::DrawContext(context);
+}
+
+// pbr with textures
+void drawObjectTexture2(Core::RenderContext& context, glm::mat4 modelMatrix, GLuint AlbedoMap, GLuint NormalMap, GLuint AmbientOcclusionMap, GLuint RoughnessMap, GLuint MetalnessMap)
+{
+	glUseProgram(programTex);
+	glm::mat4 viewProjectionMatrix = createPerspectiveMatrix() * createCameraMatrix();
+	glm::mat4 transformation = viewProjectionMatrix * modelMatrix;
+	glUniformMatrix4fv(glGetUniformLocation(programTex, "transformation"), 1, GL_FALSE, (float*)&transformation);
+	glUniformMatrix4fv(glGetUniformLocation(programTex, "modelMatrix"), 1, GL_FALSE, (float*)&modelMatrix);
+	glUniform1f(glGetUniformLocation(programTex, "exposition"), exposition);
+	glUniform3f(glGetUniformLocation(programTex, "cameraPos"), cameraPos.x, cameraPos.y, cameraPos.z);
+
+	glUniform3f(glGetUniformLocation(programTex, "lightPos"), pointlightPos.x, pointlightPos.y, pointlightPos.z);
+	glUniform3f(glGetUniformLocation(programTex, "lightColor"), pointlightColor.x, pointlightColor.y, pointlightColor.z);
+
+	glUniform3f(glGetUniformLocation(programTex, "spotlightConeDir"), spotlightConeDir.x, spotlightConeDir.y, spotlightConeDir.z);
+	glUniform3f(glGetUniformLocation(programTex, "spotlightPos"), spotlightPos.x, spotlightPos.y, spotlightPos.z);
+	glUniform3f(glGetUniformLocation(programTex, "spotlightColor"), spotlightColor.x, spotlightColor.y, spotlightColor.z);
+	glUniform1f(glGetUniformLocation(programTex, "spotlightPhi"), spotlightPhi);
+
+	Core::SetActiveTexture(AlbedoMap, "albedoMap", programTex, 0);
+	Core::SetActiveTexture(NormalMap, "normalMap", programTex, 1);
+	Core::SetActiveTexture(AmbientOcclusionMap, "aoMap", programTex, 2);
+	Core::SetActiveTexture(RoughnessMap, "roughMap", programTex, 3);
+	Core::SetActiveTexture(MetalnessMap, "metalMap", programTex, 4);
 	Core::DrawContext(context);
 }
 
@@ -507,6 +552,8 @@ void renderScene(GLFWwindow* window)
 	/*drawObjectPBR(models::floorContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);*/
 	/*drawObjectTexture(models::floorContext, glm::mat4(), texture::woodPlanks);*/
 	drawObjectPBRTexture(models::floorContext, glm::mat4(), texture::woodPlanks, 0.2f, 0.f, .5);
+	drawObjectTexture2(models::doorContext, glm::mat4(),
+		doorTexture::albedo, doorTexture::normal, doorTexture::ambientOcclusion, doorTexture::roughness, doorTexture::metalness);
 
 	drawObjectPBR(models::movingSphere, glm::translate(pointlightPos) * glm::scale(glm::vec3(0.1)) * glm::eulerAngleY(time / 3) * glm::translate(glm::vec3(4.f, 0, 0)) * glm::scale(glm::vec3(0.3f)), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 
@@ -524,12 +571,20 @@ void renderScene(GLFWwindow* window)
 	drawObjectPBRMirror(models::mirrorGlassContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::tableContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::monitorContext, glm::mat4(), glm::vec3(0.17f, 0.17f, 0.17f), 0.2f, 0.f);
-	drawObjectPBR(models::doorContext, glm::mat4(), glm::vec3(0.42f, 0.29f, 0.23f), 0.2f, 0.f);
+
+	//drawObjectPBR(models::doorContext, glm::mat4(), glm::vec3(0.42f, 0.29f, 0.23f), 0.2f, 0.f);
+	drawObjectTexture2(models::doorContext, glm::mat4(),
+		doorTexture::albedo, doorTexture::normal, doorTexture::ambientOcclusion, doorTexture::roughness, doorTexture::metalness);
+	
 	drawObjectPBR(models::pencilsContext, glm::mat4(), glm::vec3(1.f, 1.f, 1.f), 0.2f, 0.f);
 	drawObjectPBR(models::marbleBustContext, glm::mat4(), glm::vec3(0.88, 0.88, 0.88), 0.2f, 0.f);
 	drawObjectPBR(models::notebookContext, glm::mat4(), glm::vec3(0.93, 0.23, 0.23), 0.2f, 0.f);
 	drawObjectPBR(models::drawerContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
-	drawObjectPBR(models::wardrobeContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
+
+	// drawObjectPBR(models::wardrobeContext, glm::mat4(), glm::vec3(0.45, 0.16, 0.04), 0.2f, 0.f);
+	drawObjectTexture2(models::wardrobeContext, glm::mat4(),
+		wardrobeTexture::albedo, wardrobeTexture::normal, wardrobeTexture::ambientOcclusion, wardrobeTexture::roughness, wardrobeTexture::metalness);
+
 	drawObjectPBR(models::ceilingLightLampContext, glm::mat4(), glm::vec3(1., 1., 1.), 0.2f, 0.f);
 	drawObjectPBR(models::couchContext, glm::mat4(), glm::vec3(0.07, 0.32, 0.16), 0.2f, 0.f);
 	drawObjectPBR(models::tvContext, glm::mat4(), glm::vec3(0.17f, 0.17f, 0.17f), 0.2f, 0.f);
@@ -656,8 +711,6 @@ void init(GLFWwindow* window)
 	loadModelToContext("./models/snow-globe/snow-globe.obj", models::snowGlobeContext);
 	loadModelToContext("./models/monitor/monitor.obj", models::monitorContext);
 	loadModelToContext("./models/door/door.obj", models::doorContext);
-	loadModelToContext("./models/door/door.obj", models::doorContext);
-	loadModelToContext("./models/door/door.obj", models::doorContext);
 	loadModelToContext("./models/pencils.obj", models::pencilsContext);
 	loadModelToContext("./models/marble-bust.obj", models::marbleBustContext);
 	loadModelToContext("./models/notebook.obj", models::notebookContext);
@@ -674,6 +727,18 @@ void init(GLFWwindow* window)
 	texture::box = Core::LoadTexture("textures/grid.png");
 	texture::woodPlanks = Core::LoadTexture("textures/wood_planks_2.jpg");
 	texture::grass = Core::LoadTexture("textures/grass.jpg");
+
+	doorTexture::albedo = Core::LoadTexture("textures/door/albedo.jpg");
+	doorTexture::normal = Core::LoadTexture("textures/door/normal.png");
+	doorTexture::ambientOcclusion = Core::LoadTexture("textures/door/ambientOcclusion.png");
+	doorTexture::roughness = Core::LoadTexture("textures/door/roughness.png");
+	doorTexture::metalness = Core::LoadTexture("textures/door/metalness.png");
+
+	wardrobeTexture::albedo = Core::LoadTexture("textures/wood/albedo.png");
+	wardrobeTexture::normal = Core::LoadTexture("textures/wood/normal.png");
+	wardrobeTexture::ambientOcclusion = Core::LoadTexture("textures/wood/ambientOcclusion.png");
+	wardrobeTexture::roughness = Core::LoadTexture("textures/wood/roughness.png");
+	wardrobeTexture::metalness = Core::LoadTexture("textures/wood/metalness.png");
 
 	std::vector<std::string> faces
 	{
