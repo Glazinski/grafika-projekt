@@ -1,72 +1,37 @@
-﻿  Box.cpp
-  Camera.cpp
-  main.cpp
+﻿  main.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(130,1): warning C4005: "APIENTRY": ponowna definicja makra
 C:\Users\jwesolowski\Source\Repos\grafika-projekt-2\dependencies\glfw-3.3.8.bin.WIN32\include\GLFW\glfw3.h(123,1): message : zobacz poprzednią definicję „APIENTRY”
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(132,30): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(152,38): warning C4305: "=": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(194,16): warning C4305: "inicjowanie": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(278,13): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(293,89): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(133,30): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(153,38): warning C4305: "=": obcięcie z "double" do "float"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(195,16): warning C4305: "inicjowanie": obcięcie z "double" do "float"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(315,13): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(330,89): warning C4305: "argument": obcięcie z "double" do "T"
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(295,59): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(332,59): warning C4305: "argument": obcięcie z "double" do "T"
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(422,13): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(432,108): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(460,13): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(470,108): warning C4305: "argument": obcięcie z "double" do "T"
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(459,2): warning C4305: "argument": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(472,94): warning C4305: "argument": obcięcie z "double" do "T"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(497,2): warning C4305: "argument": obcięcie z "double" do "float"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(511,94): warning C4305: "argument": obcięcie z "double" do "T"
           with
           [
               T=float
           ]
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(551,17): warning C4101: "image": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(685,21): warning C4305: "-=": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(687,21): warning C4305: "+=": obcięcie z "double" do "float"
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(705,19): warning C4244: "argument": konwersja z "double" do "GLint", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(705,16): warning C4244: "argument": konwersja z "double" do "GLint", możliwa utrata danych
-  Render_Utils.cpp
-  Shader_Loader.cpp
-  Texture.cpp
-  Generowanie kodu...
-  image_DXT.c
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\image_DXT.c(92,9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  image_helper.c
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\image_helper.c(325,17): warning C4244: "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\image_helper.c(366,13): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\image_helper.c(373,20): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\image_helper.c(415,13): warning C4244: "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\image_helper.c(422,20): warning C4244: "=": konwersja z "float" do "int", możliwa utrata danych
-  SOIL.c
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\SOIL.c(1719,36): warning C4018: "<=": niezgodność typu ze znakiem/bez znaku
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\SOIL.c(1729,19): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\SOIL.c(1841,6): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  stb_image_aug.c
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(177,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(251,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(303,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(1557,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(2394,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(2709,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(2995,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(3209,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(3548,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stb_image_aug.c(3644,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stbi_DDS_aug_c.h(362,19): warning C4018: ">": niezgodność typu ze znakiem/bez znaku
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stbi_DDS_aug_c.h(366,19): warning C4018: ">": niezgodność typu ze znakiem/bez znaku
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stbi_DDS_aug_c.h(390,19): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stbi_DDS_aug_c.h(427,19): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
-C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\SOIL\stbi_DDS_aug_c.h(498,14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  Generowanie kodu...
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(591,17): warning C4101: "image": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(726,21): warning C4305: "-=": obcięcie z "double" do "float"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(728,21): warning C4305: "+=": obcięcie z "double" do "float"
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(746,19): warning C4244: "argument": konwersja z "double" do "GLint", możliwa utrata danych
+C:\Users\jwesolowski\source\repos\grafika-projekt-2\GrafikaProjekt\src\GrafikaProjekt.hpp(746,16): warning C4244: "argument": konwersja z "double" do "GLint", możliwa utrata danych
 Box.obj : warning LNK4075: zignorowano opcję „/EDITANDCONTINUE” z powodu określenia opcji „/INCREMENTAL:NO”
 LINK : warning LNK4098: domyślna biblioteka „MSVCRT” powoduje konflikt z innymi bibliotekami; użyj opcji /NODEFAULTLIB:biblioteka
   GrafikaProjekt.vcxproj -> C:\Users\jwesolowski\Source\Repos\grafika-projekt-2\Debug\GrafikaProjekt.exe
